@@ -3,7 +3,6 @@ parameters:
 
 services:
 
-  # TODO: this should be configured "PER BOUNDED CONTEXT" (analogous to how Doctrine DBAL connections are handled)
   neos_eventsourcing_event_eventTypeResolver:
     class: Neos\EventSourcing\Event\Resolver\FullyQualifiedClassNameResolver
 
@@ -12,21 +11,21 @@ services:
     arguments:
       $eventTypeResolver: "@neos_eventsourcing_event_eventTypeResolver"
 
-  neos_eventsourcing_symfony_command_setupCommand:
+  neos_eventsourcing_symfonybridge_command_setupCommand:
     class: Neos\EventSourcing\SymfonyBridge\Command\SetupCommand
     tags: ["console.command"]
     arguments:
       # TODO
-      $doctrineAppliedEventsStorageSetup: "@neos_eventsourcing_symfony_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup"
+      $doctrineAppliedEventsStorageSetup: "@neos_eventsourcing_symfonybridge_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup"
       $container: "@Psr\\Container\\ContainerInterface"
 
-  neos_eventsourcing_symfony_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup:
+  neos_eventsourcing_symfonybridge_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup:
     class: Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup
     arguments:
       $connection: "@Doctrine\\DBAL\\Connection"
 
 
-  neos_eventsourcing_symfony_command_internalFooCommand:
+  neos_eventsourcing_symfonybridge_command_internalFooCommand:
     class: Neos\EventSourcing\SymfonyBridge\Command\InternalCatchUpEventListenerCommand
     tags: [ "console.command" ]
     arguments:
