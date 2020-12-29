@@ -13,7 +13,7 @@ services:
       $eventTypeResolver: "@neos_eventsourcing_event_eventTypeResolver"
 
   neos_eventsourcing_symfony_command_setupCommand:
-    class: Neos\EventSourcing\Symfony\Command\SetupCommand
+    class: Neos\EventSourcing\SymfonyBridge\Command\SetupCommand
     tags: ["console.command"]
     arguments:
       # TODO
@@ -21,17 +21,17 @@ services:
       $container: "@Psr\\Container\\ContainerInterface"
 
   neos_eventsourcing_symfony_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup:
-    class: Neos\EventSourcing\Symfony\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup
+    class: Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup
     arguments:
       $connection: "@Doctrine\\DBAL\\Connection"
 
 
   neos_eventsourcing_symfony_command_internalFooCommand:
-    class: Neos\EventSourcing\Symfony\Command\InternalCatchUpEventListenerCommand
+    class: Neos\EventSourcing\SymfonyBridge\Command\InternalCatchUpEventListenerCommand
     tags: [ "console.command" ]
     arguments:
       $container: "@Psr\\Container\\ContainerInterface"
       $connection: "@Doctrine\\DBAL\\Connection"
 
-  Neos\EventSourcing\Symfony\Transport\ConsoleCommandTransport: ~
-  Neos\EventSourcing\Symfony\Transport\AsyncTransportInterface: '@Neos\EventSourcing\Symfony\Transport\ConsoleCommandTransport'
+  Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport: ~
+  Neos\EventSourcing\SymfonyBridge\Transport\AsyncTransportInterface: '@Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport'
