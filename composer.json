@@ -1,0 +1,37 @@
+{
+    "name": "neos/event-sourcing-symfony-bridge",
+    "type": "neos-package",
+    "description": "Symfony bridge to integrate Event Sourcing and CQRS pattern in your Symfony framework.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastian Kurfürst",
+            "email": "sebastian.kurfuerst@sandstorm.de"
+        },
+        {
+            "name": "Timo Nussbaum",
+            "email": "timo.nussbaum@gmx.de"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "symfony/serializer": "^5.1",
+        "symfony/property-access": "^5.1",
+        "neos/error-messages": "*",
+        "neos/utility-objecthandling": "*",
+        "ramsey/uuid": "^3.9"
+    },
+    "suggest": {
+        "symfony/process": "Needed for standalone usage"
+    },
+    "autoload": {
+        "psr-4": {
+            "Neos\\EventSourcing\\SymfonyBridge\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Neos\\EventSourcing\\Tests\\SymfonyBridge\\": "tests"
+        }
+    }
+}
