@@ -16,12 +16,8 @@ use Neos\Error\Messages\Notice;
 use Neos\Error\Messages\Result;
 use Neos\EventSourcing\EventListener\AppliedEventsStorage\AppliedEventsLog;
 
-/**
- * TODO: move out of the symfony specific code to the Flow side of things.
- */
 class DoctrineAppliedEventsStorageSetup
 {
-
     /**
      * @var Connection
      */
@@ -45,19 +41,52 @@ class DoctrineAppliedEventsStorageSetup
         $result = new Result();
         $schemaManager = $this->connection->getSchemaManager();
         if ($schemaManager === null) {
-            $result->addError(new Error('Failed to retrieve Schema Manager', 1592381759, [], 'Connection failed'));
+            $result->addError(
+                new Error(
+                    'Failed to retrieve Schema Manager',
+                    1592381759,
+                    [],
+                    'Connection failed'
+                )
+            );
             return $result;
         }
         try {
             $tableExists = $schemaManager->tablesExist([AppliedEventsLog::TABLE_NAME]);
         } catch (ConnectionException $exception) {
-            $result->addError(new Error($exception->getMessage(), $exception->getCode(), [], 'Connection failed'));
+            $result->addError(
+                new Error(
+                    $exception->getMessage(),
+                    $exception->getCode(),
+                    [],
+                    'Connection failed'
+                )
+            );
             return $result;
         }
+
         if ($tableExists) {
-            $result->addNotice(new Notice('Table "%s" (already exists)', null, [AppliedEventsLog::TABLE_NAME]));
+            $result->addNotice(
+                new Notice(
+                    'Table "%s" (already exists)',
+                    null,
+                    [
+                        AppliedEventsLog::TABLE_NAME
+                    ]
+                )
+            );
         } else {
-            $result->addNotice(new Notice('Creating database table "%s" in database "%s" on host %s....', null, [AppliedEventsLog::TABLE_NAME, $this->connection->getDatabase(), $this->connection->getHost()]));
+            $result->addNotice(
+                new Notice(
+                    'Creating database table "%s" in database "%s" on host %s....',
+                    null,
+                    [
+                        AppliedEventsLog::TABLE_NAME,
+                        $this->connection->getDatabase(),
+                        $this->connection->getHost()
+                    ]
+                )
+            );
         }
 
         $fromSchema = $schemaManager->createSchema();

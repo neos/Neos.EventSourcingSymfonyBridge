@@ -9,7 +9,7 @@ use Neos\Error\Messages\Notice;
 use Neos\Error\Messages\Result;
 use Neos\Error\Messages\Warning;
 use Neos\EventSourcing\EventStore\EventStore;
-use Neos\EventSourcing\Symfony\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup;
+use Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

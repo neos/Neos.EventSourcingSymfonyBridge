@@ -15,7 +15,6 @@ services:
     class: Neos\EventSourcing\SymfonyBridge\Command\SetupCommand
     tags: ["console.command"]
     arguments:
-      # TODO
       $doctrineAppliedEventsStorageSetup: "@neos_eventsourcing_symfonybridge_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup"
       $container: "@Psr\\Container\\ContainerInterface"
 

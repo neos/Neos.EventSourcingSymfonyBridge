@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Neos\EventSourcing\SymfonyBridge;
 
 use Neos\EventSourcing\SymfonyBridge\DependencyInjection\NeosEventSourcingExtension;
@@ -11,5 +13,4 @@ class NeosEventSourcingBundle extends Bundle
     {
         return new NeosEventSourcingExtension();
     }
-
 }

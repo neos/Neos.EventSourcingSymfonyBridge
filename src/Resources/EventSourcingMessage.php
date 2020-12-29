@@ -15,7 +15,6 @@ final class EventSourcingMessage
         string $eventStoreContainerId
     ): EventSourcingMessage
     {
-
         $newMessage = new self();
         $newMessage->listenerClassName = $listenerClassName;
         $newMessage->eventStoreContainerId = $eventStoreContainerId;

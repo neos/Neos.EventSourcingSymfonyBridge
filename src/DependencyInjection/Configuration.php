@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Neos\EventSourcing\SymfonyBridge\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -8,17 +10,12 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public function __construct()
-    {
-    }
-
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('neos_eventsourcing');
         $rootNode    = $treeBuilder->getRootNode();
 
         $this->addDbalSection($rootNode);
-
         return $treeBuilder;
     }
 
