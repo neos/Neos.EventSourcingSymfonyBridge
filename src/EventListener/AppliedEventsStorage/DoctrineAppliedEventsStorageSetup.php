@@ -6,6 +6,7 @@ namespace Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage;
 
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
@@ -14,7 +15,7 @@ use Neos\Error\Messages\Error;
 use Neos\Error\Messages\Notice;
 use Neos\Error\Messages\Result;
 use Neos\EventSourcing\EventListener\AppliedEventsStorage\AppliedEventsLog;
-use Neos\EventSourcing\SymfonyBridge\Driver\Connection;
+
 
 class DoctrineAppliedEventsStorageSetup
 {
