@@ -21,8 +21,7 @@ class MessengerTransport implements AsyncTransportInterface
     public function send(
         string $listenerClassName,
         string $eventStoreContainerId
-    ):void
-    {
+    ): void {
         $message = EventSourcingMessage::create(
             $listenerClassName,
             $eventStoreContainerId

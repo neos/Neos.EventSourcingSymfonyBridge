@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Neos\EventSourcing\SymfonyBridge\Transport;
 
-interface AsyncTransportInterface {
-
+interface AsyncTransportInterface
+{
     public function send(
         string $listenerClassName,
         string $eventStoreContainerId

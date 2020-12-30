@@ -16,7 +16,6 @@ use Neos\Error\Messages\Notice;
 use Neos\Error\Messages\Result;
 use Neos\EventSourcing\EventListener\AppliedEventsStorage\AppliedEventsLog;
 
-
 class DoctrineAppliedEventsStorageSetup
 {
     /**
