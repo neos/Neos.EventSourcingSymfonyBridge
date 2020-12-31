@@ -10,6 +10,5 @@ class SymfonyBridgeWasCreated implements DomainEventInterface
 {
     public function __construct()
     {
-
     }
 }
