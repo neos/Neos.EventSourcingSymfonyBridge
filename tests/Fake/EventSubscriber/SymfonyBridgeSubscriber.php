@@ -20,6 +20,5 @@ class SymfonyBridgeSubscriber implements EventSubscriberInterface
 
     public function whenSymfonyBridgeWasCreated(BlogWasCreated $event, RawEvent $rawEvent)
     {
-
     }
 }

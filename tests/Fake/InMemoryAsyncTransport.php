@@ -15,14 +15,18 @@ class InMemoryAsyncTransport implements AsyncTransportInterface
         string $eventStoreContainerId
     ): void
     {
-        $this->dispatchedEvents[] = new class($listenerClassName, $eventStoreContainerId) {
-            protected  $listenerClassName;
-            protected  $eventStoreContainerId;
+        $this->dispatchedEvents[] = new class (
+            $listenerClassName,
+            $eventStoreContainerId
+        ) {
+            protected $listenerClassName;
+            protected $eventStoreContainerId;
 
             public function __construct(
                 string $listenerClassName,
                 string $eventStoreContainerId
-            ) {
+            )
+            {
                 $this->listenerClassName = $listenerClassName;
                 $this->eventStoreContainerId = $eventStoreContainerId;
             }

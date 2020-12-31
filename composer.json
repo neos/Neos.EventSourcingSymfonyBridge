@@ -26,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Neos\\EventSourcing\\SymfonyBridge\\": "src"
+            "Neos\\EventSourcing\\SymfonyBridge\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Neos\\EventSourcing\\SymfonyBridge\\Tests\\": "tests"
+            "Neos\\EventSourcing\\SymfonyBridge\\Tests\\": "tests/"
         }
     }
 }
