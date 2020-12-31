@@ -31,7 +31,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Neos\\EventSourcing\\Tests\\SymfonyBridge\\": "tests"
+            "Neos\\EventSourcing\\SymfonyBridge\\Tests\\": "tests"
         }
     }
 }

@@ -23,7 +23,6 @@ services:
     arguments:
       $connection: "@Doctrine\\DBAL\\Connection"
 
-
   neos_eventsourcing_symfonybridge_command_internalFooCommand:
     class: Neos\EventSourcing\SymfonyBridge\Command\InternalCatchUpEventListenerCommand
     tags: [ "console.command" ]
@@ -31,5 +30,7 @@ services:
       $container: "@Psr\\Container\\ContainerInterface"
       $connection: "@Doctrine\\DBAL\\Connection"
 
-  Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport: ~
+  Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport:
+    arguments:
+      $projectDir: "%kernel.project_dir%"
   Neos\EventSourcing\SymfonyBridge\Transport\AsyncTransportInterface: '@Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport'

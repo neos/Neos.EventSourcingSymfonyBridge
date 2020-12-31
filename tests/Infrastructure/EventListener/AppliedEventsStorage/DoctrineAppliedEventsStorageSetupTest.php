@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Neos\EventSourcing\Tests\SymfonyBridge\Infrastructure\EventListener\AppliedEventsStorage;
+namespace Neos\EventSourcing\SymfonyBridge\Tests\Infrastructure\EventListener\AppliedEventsStorage;
 
 use Neos\EventSourcing\EventListener\AppliedEventsStorage\AppliedEventsLog;
 use Neos\EventSourcing\SymfonyBridge\Driver\Connection;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Neos\EventSourcing\Tests\SymfonyBridge\Unit\EventListener\AppliedEventsStorage;
+namespace Neos\EventSourcing\SymfonyBridge\Tests\Unit\EventListener\AppliedEventsStorage;
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Neos\Error\Messages\Result;

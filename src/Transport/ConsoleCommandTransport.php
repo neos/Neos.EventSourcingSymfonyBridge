@@ -14,10 +14,10 @@ class ConsoleCommandTransport implements AsyncTransportInterface
     private $projectDir = '';
 
     public function __construct(
-        KernelInterface $kernelInterface
+        string $projectDir
     )
     {
-        $this->projectDir = $kernelInterface->getProjectDir();
+        $this->projectDir = $projectDir;
     }
 
     public function send(
