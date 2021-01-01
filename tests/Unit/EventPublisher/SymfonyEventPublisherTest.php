@@ -36,7 +36,7 @@ class SymfonyEventPublisherTest extends TestCase
 
         $this->domainEvents = DomainEvents::fromArray(
             [
-                new SymfonyBridgeWasCreated()
+                new SymfonyBridgeWasCreated('')
             ]
         );
     }
