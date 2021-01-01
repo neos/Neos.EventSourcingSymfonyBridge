@@ -10,7 +10,7 @@ Install this package via composer:
 composer require neos/event-sourcing-symfony-bridge
 ```
 
-### Setting up an Event Store
+### Setting up an Doctrine Event Store
 
 Since there could be multiple Event Stores simultaneously in one application, this package comes without a pre-configured "default" store.
 It is just a matter of a couple of lines of YAML to configure a custom store:
@@ -21,10 +21,27 @@ neos_eventsourcing:
   stores:
     'blog.events':
       eventTableName: blog_events
-      listenerClassNames: []
     'user.events':
       eventTableName: user_events
-      listenerClassNames: []
+```
+
+Set the charset in the doctrine config to utf8mb4 by adding the following lines.
+
+*config/packages/doctrine.yaml:*
+```yaml
+doctrine:
+    dbal:
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+
+                # IMPORTANT: You MUST configure your server version,
+                # either here or in the DATABASE_URL env var (see .env file)
+                server_version: '5.7'
+
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
 ```
 
 Add the following to bundles.php:
