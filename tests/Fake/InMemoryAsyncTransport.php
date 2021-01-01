@@ -10,6 +10,10 @@ class InMemoryAsyncTransport implements AsyncTransportInterface
 {
     protected $dispatchedEvents;
 
+    public function __construct()
+    {
+    }
+    
     public function send(
         string $listenerClassName,
         string $eventStoreContainerId
