@@ -40,6 +40,8 @@ class DoctrineAppliedEventsStorageSetup
      */
     public function setup(): Result
     {
+        $this->connection->beginTransaction();
+
         $result = $this->retrieveSchemaManager($this->connection);
         if ($result->hasErrors()) {
             return $result;

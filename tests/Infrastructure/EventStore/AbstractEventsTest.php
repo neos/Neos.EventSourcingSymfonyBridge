@@ -48,8 +48,6 @@ abstract class AbstractEventsTest extends TestCase
             $eventNormalizer
         );
 
-        $this->connection->beginTransaction();
-
         $this->eventStore->setup();
 
         $doctrineAppliedEventsStorageSetup = new DoctrineAppliedEventsStorageSetup($this->connection);

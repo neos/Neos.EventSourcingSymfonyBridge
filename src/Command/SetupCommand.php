@@ -77,19 +77,7 @@ class SetupCommand extends Command
         if ($result->hasNotices()) {
             /** @var Notice $notice */
             foreach ($result->getNotices() as $notice) {
-                if ($notice->getTitle() !== null) {
-                    $output->writeln(
-                        vsprintf(
-                            '<b>%s</b>: %s',
-                            [
-                                $notice->getTitle(),
-                                $notice->render()
-                            ]
-                        )
-                    );
-                } else {
-                    $output->writeln($notice->render());
-                }
+                $output->writeln($notice->render());
             }
         }
 
@@ -108,26 +96,14 @@ class SetupCommand extends Command
         } elseif ($result->hasWarnings()) {
             /** @var Warning $warning */
             foreach ($result->getWarnings() as $warning) {
-                if ($warning->getTitle() !== null) {
-                    $output->writeln(
-                        vsprintf(
-                            '<b>%s</b>: <em>%s !!!</em>',
-                            [
-                                $warning->getTitle(),
-                                $warning->render()
-                            ]
-                        )
-                    );
-                } else {
-                    $output->writeln(
-                        vsprintf(
-                            '<em>%s !!!</em>',
-                            [
-                                $warning->render()
-                            ]
-                        )
-                    );
-                }
+                $output->writeln(
+                    vsprintf(
+                        '<bg=yellow;>%s !!!</>',
+                        [
+                            $warning->render()
+                        ]
+                    )
+                );
             }
         } else {
             $output->writeln('<info>SUCCESS</info>');
