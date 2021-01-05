@@ -18,16 +18,23 @@ services:
       $doctrineAppliedEventsStorageSetup: "@neos_eventsourcing_symfonybridge_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup"
       $container: "@Psr\\Container\\ContainerInterface"
 
-  neos_eventsourcing_symfonybridge_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup:
-    class: Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup
-    arguments:
-      $connection: "@Doctrine\\DBAL\\Connection"
-
-  neos_eventsourcing_symfonybridge_command_internalFooCommand:
+  neos_eventsourcing_symfonybridge_command_catchUpCommand:
     class: Neos\EventSourcing\SymfonyBridge\Command\InternalCatchUpEventListenerCommand
     tags: [ "console.command" ]
     arguments:
       $container: "@Psr\\Container\\ContainerInterface"
+      $connection: "@Doctrine\\DBAL\\Connection"
+
+  neos_eventsourcing_symfonybridge_command_replayCommand:
+    class: Neos\EventSourcing\SymfonyBridge\Command\ProjectionReplayCommand
+    tags: [ "console.command" ]
+    arguments:
+      $container: "@Psr\\Container\\ContainerInterface"
+      $connection: "@Doctrine\\DBAL\\Connection"
+
+  neos_eventsourcing_symfonybridge_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup:
+    class: Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup
+    arguments:
       $connection: "@Doctrine\\DBAL\\Connection"
 
   Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport:

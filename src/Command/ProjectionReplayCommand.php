@@ -12,9 +12,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InternalCatchUpEventListenerCommand extends Command
+class ProjectionReplayCommand extends Command
 {
-    protected static $defaultName = 'eventsourcing:internal:catchup-event-listener';
+    protected static $defaultName = 'eventsourcing:projection-replay';
 
     /**
      * @var ContainerInterface
@@ -29,17 +29,19 @@ class InternalCatchUpEventListenerCommand extends Command
     public function __construct(
         ContainerInterface $container,
         Connection $connection
-    ) {
+    )
+    {
         $this->container = $container;
         $this->connection = $connection;
+
         parent::__construct();
     }
 
     protected function configure()
     {
-        $this
-            ->addArgument('eventListenerClassName', InputArgument::REQUIRED)
-            ->addArgument('eventStoreContainerId', InputArgument::REQUIRED);
+        $this->addArgument('eventListenerClassName', InputArgument::REQUIRED)
+            ->addArgument('eventStoreContainerId', InputArgument::REQUIRED)
+            ->setDescription('Replay a projection.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -56,7 +58,8 @@ class InternalCatchUpEventListenerCommand extends Command
             $this->connection
         );
 
-        $eventListenerInvoker->catchUp();
+        $listener->reset();
+        $eventListenerInvoker->replay();
 
         return Command::SUCCESS;
     }

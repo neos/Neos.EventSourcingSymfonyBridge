@@ -25,7 +25,6 @@ class ConsoleCommandTransport implements AsyncTransportInterface
         string $eventStoreContainerId
     ): void
     {
-
         $command = sprintf(
             '%s/bin/console',
             $this->projectDir
