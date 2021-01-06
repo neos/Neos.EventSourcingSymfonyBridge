@@ -62,60 +62,45 @@ php bin/console eventsourcing:store-setup
 ```php
 class BlogWasCreated implements DomainEventInterface
 {
-/**
-* @var string
-*/
-private $name;
+    /**
+     * @var BlogIdentifier
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $name;
 
     /**
      * @var UserIdentifier
      */
     private $author;
 
-    /**
-     * @var string
-     */
-    private $streamName;
-
-    /**
-     * BlogWasCreated constructor.
-     * @param string $name
-     * @param UserIdentifier $author
-     * @param string $streamName
-     */
     public function __construct(
+        BlogIdentifier $id,
         string $name,
-        UserIdentifier $author,
-        string $streamName
+        UserIdentifier $author
     )
     {
+        $this->id = $id;
         $this->name = $name;
         $this->author = $author;
-        $this->streamName = $streamName;
     }
 
-    /**
-     * @return string
-     */
+    public function getId(): BlogIdentifier
+    {
+        return $this->id;
+    }
+
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return UserIdentifier
-     */
     public function getAuthor(): UserIdentifier
     {
         return $this->author;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStreamName(): string
-    {
-        return $this->streamName;
     }
 }
 ```
@@ -123,14 +108,14 @@ private $name;
 
 ```php
 <?php
+$uuid = $this->blogRepository->nextIdentity();
 $event = new BlogWasCreated(
+    $uuid,
     $command->getName(),
-    $command->getAuthorIdentifier(),
-    $streamName
+    $command->getAuthorIdentifier()
 );
 
-$stream = StreamName::fromString($streamName);
-
+$stream = StreamName::fromString('some-stream');
 $this->eventStore->commit($stream, DomainEvents::withSingleEvent(
     $event
 ));
@@ -181,8 +166,6 @@ The `when*()` methods of classes implementing the `EventSubscriberInterface` and
 NOTE!!! You always have to use "when*" namings, as otherwise, the EventListenerInvoker
 will not properly call the right methods here. 
 
-We only use the EventSubscriber from symfony to figure out which listeners should be called.
-
 ### Replay projection
 
 With the following command you can rebuild a projection.
@@ -190,3 +173,29 @@ With the following command you can rebuild a projection.
 ```php
 bin/console eventsourcing:projection-replay eventListenerClassName eventStoreContainerId
 ```
+
+### Events & event listeners
+The Neos EventSourcing package comes with its own events and event listeners
+implementation. We cannot use this implementation for several reasons 
+in the symfony context.
+
+To get the listeners (subscribers in symfony) for an event we call 
+the symfony event dispatcher (in the SymfonyEventPublisher). 
+
+```php
+$listeners = $this->eventDispatcher->getListeners($eventClassName);
+```
+
+The listeners are handled by the InternalCatchUpEventListenerCommand.
+This command uses the (Neos EventSourcing) EventListenerInvoker to 
+call the listeners method name. 
+
+The specialty about this is that the EventSourcing package uses the 
+"when*" namings. For that reason the listeners method names have 
+to start with when* prefix too (@see Reacting to events).
+
+### Demo
+
+Check out the symfony demo:
+
+https://github.com/Inchie/eventsourcing.git

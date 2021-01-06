@@ -15,7 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SetupCommand extends Command
+final class SetupCommand extends Command
 {
     protected static $defaultName = 'eventsourcing:store-setup';
 

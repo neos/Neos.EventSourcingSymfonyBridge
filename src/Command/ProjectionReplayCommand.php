@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ProjectionReplayCommand extends Command
+final class ProjectionReplayCommand extends Command
 {
     protected static $defaultName = 'eventsourcing:projection-replay';
 

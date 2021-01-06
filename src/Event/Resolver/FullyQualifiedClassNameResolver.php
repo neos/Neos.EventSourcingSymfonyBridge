@@ -9,7 +9,6 @@ use Neos\EventSourcing\Event\EventTypeResolverInterface;
 
 class FullyQualifiedClassNameResolver implements EventTypeResolverInterface
 {
-
     public function getEventType(DomainEventInterface $event): string
     {
         return get_class($event);

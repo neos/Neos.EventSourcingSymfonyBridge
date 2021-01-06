@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InternalCatchUpEventListenerCommand extends Command
+final class InternalCatchUpEventListenerCommand extends Command
 {
     protected static $defaultName = 'eventsourcing:internal:catchup-event-listener';
 
