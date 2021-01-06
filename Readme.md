@@ -182,3 +182,11 @@ NOTE!!! You always have to use "when*" namings, as otherwise, the EventListenerI
 will not properly call the right methods here. 
 
 We only use the EventSubscriber from symfony to figure out which listeners should be called.
+
+### Replay projection
+
+With the following command you can rebuild a projection.
+
+```php
+bin/console eventsourcing:projection-replay eventListenerClassName eventStoreContainerId
+```
