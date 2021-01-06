@@ -12,12 +12,15 @@ use Symfony\Component\Process\Process;
 class ConsoleCommandTransport implements AsyncTransportInterface
 {
     private $projectDir = '';
+    private $environment = '';
 
     public function __construct(
-        string $projectDir
+        string $projectDir,
+        string $environment
     )
     {
         $this->projectDir = $projectDir;
+        $this->environment = $environment;
     }
 
     public function send(
@@ -36,7 +39,9 @@ class ConsoleCommandTransport implements AsyncTransportInterface
                 $command,
                 InternalCatchUpEventListenerCommand::getDefaultName(),
                 $listenerClassName,
-                $eventStoreContainerId
+                $eventStoreContainerId,
+                '--env',
+                $this->environment
             ]
         );
         $process->run();

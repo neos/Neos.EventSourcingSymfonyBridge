@@ -37,4 +37,5 @@ services:
   Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport:
     arguments:
       $projectDir: "%kernel.project_dir%"
+      $environment: "%kernel.environment%"
   Neos\EventSourcing\SymfonyBridge\Transport\AsyncTransportInterface: '@Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport'
