@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Neos\EventSourcing\SymfonyBridge\Tests\Infrastructure\EventStore;
 
-use Neos\EventSourcing\Event\Resolver\FullyQualifiedClassNameResolver;
 use Neos\EventSourcing\EventStore\EventNormalizer;
 use Neos\EventSourcing\EventStore\EventStore;
 use Neos\EventSourcing\EventStore\Storage\Doctrine\DoctrineEventStorage;
+use Neos\EventSourcing\SymfonyBridge\Event\Resolver\FullyQualifiedClassNameResolver;
 use Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup;
 use Neos\EventSourcing\SymfonyBridge\EventPublisher\SymfonyEventPublisher;
 use Neos\EventSourcing\SymfonyBridge\Tests\Fake\InMemoryAsyncTransport;
