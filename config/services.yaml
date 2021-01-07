@@ -13,20 +13,20 @@ services:
     tags: ["console.command"]
     arguments:
       $doctrineAppliedEventsStorageSetup: "@neos_eventsourcing_symfonybridge_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup"
-      $container: "@Psr\\Container\\ContainerInterface"
+      $container: "@service_container"
 
   neos_eventsourcing_symfonybridge_command_catchUpCommand:
     class: Neos\EventSourcing\SymfonyBridge\Command\InternalCatchUpEventListenerCommand
     tags: [ "console.command" ]
     arguments:
-      $container: "@Psr\\Container\\ContainerInterface"
+      $container: "@service_container"
       $connection: "@Doctrine\\DBAL\\Connection"
 
   neos_eventsourcing_symfonybridge_command_replayCommand:
     class: Neos\EventSourcing\SymfonyBridge\Command\ProjectionReplayCommand
     tags: [ "console.command" ]
     arguments:
-      $container: "@Psr\\Container\\ContainerInterface"
+      $container: "@service_container"
       $connection: "@Doctrine\\DBAL\\Connection"
 
   neos_eventsourcing_symfonybridge_eventlistener_appliedeventsstorage_doctrineAppliedEventsStorageSetup:
