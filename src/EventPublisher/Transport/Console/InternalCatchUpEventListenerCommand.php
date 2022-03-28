@@ -23,7 +23,7 @@ final class InternalCatchUpEventListenerCommand extends Command
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
      * @var Connection
@@ -46,7 +46,7 @@ final class InternalCatchUpEventListenerCommand extends Command
             ->addArgument('eventStoreContainerId', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $eventListenerClassName = $input->getArgument('eventListenerClassName');
         $eventStoreContainerId = $input->getArgument('eventStoreContainerId');

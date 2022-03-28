@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Neos\EventSourcing\SymfonyBridge\DependencyInjection;
 
 use Doctrine\DBAL\Connection;
+use Exception;
 use Neos\EventSourcing\EventStore\EventStore;
 use Neos\EventSourcing\SymfonyBridge\EventPublisher\SymfonyEventPublisher;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -19,7 +20,10 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class NeosEventSourcingExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    /**
+     * @throws Exception
+     */
+    public function load(array $configs, ContainerBuilder $container): void
     {
         // Load configuration
         $configuration = new Configuration();
@@ -56,7 +60,7 @@ class NeosEventSourcingExtension extends Extension
         }
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'neos_eventsourcing';
     }

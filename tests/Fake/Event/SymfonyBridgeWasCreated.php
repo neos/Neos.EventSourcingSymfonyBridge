@@ -8,7 +8,7 @@ use Neos\EventSourcing\Event\DomainEventInterface;
 
 class SymfonyBridgeWasCreated implements DomainEventInterface
 {
-    private $author;
+    private string $author;
 
     public function __construct(
         string $author

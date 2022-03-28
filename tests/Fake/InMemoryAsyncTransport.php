@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Neos\EventSourcing\SymfonyBridge\Tests\Fake;
 
-use Neos\EventSourcing\SymfonyBridge\Transport\AsyncTransportInterface;
+use Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\AsyncTransportInterface;
 
 class InMemoryAsyncTransport implements AsyncTransportInterface
 {
-    protected $dispatchedEvents;
+    protected array $dispatchedEvents;
 
     public function __construct()
     {
@@ -23,8 +23,8 @@ class InMemoryAsyncTransport implements AsyncTransportInterface
             $listenerClassName,
             $eventStoreContainerId
         ) {
-            protected $listenerClassName;
-            protected $eventStoreContainerId;
+            protected string $listenerClassName;
+            protected string $eventStoreContainerId;
 
             public function __construct(
                 string $listenerClassName,
@@ -47,7 +47,7 @@ class InMemoryAsyncTransport implements AsyncTransportInterface
         };
     }
 
-    public function dispatchedEvents()
+    public function dispatchedEvents(): array
     {
         return $this->dispatchedEvents;
     }

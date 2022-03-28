@@ -6,7 +6,10 @@ namespace Neos\EventSourcing\SymfonyBridge\Command;
 
 use Doctrine\DBAL\Connection;
 use Neos\EventSourcing\EventListener\EventListenerInvoker;
+use Neos\EventSourcing\EventListener\Exception\EventCouldNotBeAppliedException;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,12 +22,12 @@ final class ProjectionReplayCommand extends Command
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
      * @var Connection
      */
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(
         ContainerInterface $container,
@@ -44,7 +47,12 @@ final class ProjectionReplayCommand extends Command
             ->setDescription('Replay a projection.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws EventCouldNotBeAppliedException
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $eventListenerClassName = $input->getArgument('eventListenerClassName');
         $eventStoreContainerId = $input->getArgument('eventStoreContainerId');

@@ -22,7 +22,7 @@ final class SetupCommand extends Command
     /**
      * @var DoctrineAppliedEventsStorageSetup
      */
-    private $doctrineAppliedEventsStorageSetup;
+    private DoctrineAppliedEventsStorageSetup $doctrineAppliedEventsStorageSetup;
 
     /**
      * @var ContainerInterface
@@ -47,7 +47,7 @@ final class SetupCommand extends Command
             ->setHelp('This command allows you to create the needed stores which are defined in the config.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = $this->container->getParameter('neos_eventsourcing');
 

@@ -6,9 +6,9 @@ namespace Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Messenger\Dt
 
 final class EventSourcingMessage
 {
-    public $listenerClassName;
+    public string $listenerClassName;
 
-    public $eventStoreContainerId;
+    public string $eventStoreContainerId;
 
     public static function create(
         string $listenerClassName,
