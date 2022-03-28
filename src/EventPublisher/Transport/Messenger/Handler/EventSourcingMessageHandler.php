@@ -2,19 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Neos\EventSourcing\SymfonyBridge\Messenger\Handler;
+namespace Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Messenger\Handler;
 
 use Doctrine\DBAL\Connection;
 use Neos\EventSourcing\EventListener\EventListenerInvoker;
 use Neos\EventSourcing\EventListener\Exception\EventCouldNotBeAppliedException;
-use Neos\EventSourcing\SymfonyBridge\Resources\EventSourcingMessage;
-use Neos\EventSourcing\SymfonyBridge\Transport\MessengerTransport;
+use Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Messenger\Dto\EventSourcingMessage;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * This message handler is used by {@see MessengerTransport} for running Event Listeners (like Projectors)

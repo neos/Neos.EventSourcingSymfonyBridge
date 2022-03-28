@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Neos\EventSourcing\SymfonyBridge\Transport;
+namespace Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport;
 
-use Neos\EventSourcing\SymfonyBridge\Command\InternalCatchUpEventListenerCommand;
-use Neos\EventSourcing\SymfonyBridge\Exception\TransportException;
-use Symfony\Component\HttpKernel\KernelInterface;
+use Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Console\Exception\TransportException;
+use Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Console\InternalCatchUpEventListenerCommand;
 use Symfony\Component\Process\Process;
 
 /**

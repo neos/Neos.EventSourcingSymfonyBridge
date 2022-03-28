@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Neos\EventSourcing\SymfonyBridge\Transport;
+namespace Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport;
 
 use Neos\EventSourcing\SymfonyBridge\EventPublisher\SymfonyEventPublisher;
 

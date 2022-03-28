@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Neos\EventSourcing\SymfonyBridge\Resources;
+namespace Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Messenger\Dto;
 
 final class EventSourcingMessage
 {

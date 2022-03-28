@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Neos\EventSourcing\SymfonyBridge\Command;
+namespace Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Console;
 
 use Doctrine\DBAL\Connection;
 use Neos\EventSourcing\EventListener\EventListenerInvoker;
-use Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

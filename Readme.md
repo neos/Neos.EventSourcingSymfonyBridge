@@ -173,7 +173,7 @@ class BlogListProjector implements ProjectorInterface, EventSubscriberInterface
 The `when*()` methods of classes implementing the `EventSubscriberInterface` and `ProjectorInterface` will be invoked whenever a corresponding event is committed to the Event Store.
 
 NOTE!!! You always have to use "when*" namings, as otherwise, the EventListenerInvoker
-will not properly call the right methods here. 
+will not properly call the right methods here.
 
 ### Replay projection
 
@@ -202,6 +202,16 @@ call the listeners method name.
 The specialty about this is that the EventSourcing package uses the 
 "when*" namings. For that reason the listeners method names have 
 to start with when* prefix too (@see Reacting to events).
+
+### All configuration options in `neos_eventsourcing.yml`
+
+- `stores`
+  - `[name of event store]`
+    - `eventTableName`: database table name to use as event storage (required)
+    - `storage`: which storage engine to use for persisting events. A class name, by default: `Neos\EventSourcing\EventStore\Storage\Doctrine\DoctrineEventStorage`
+    - `eventPublisherTransport`: Class name. How the asychronity between event store and projection is implemented. By default,
+      `Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport` is used, but also `Neos\EventSourcing\SymfonyBridge\Transport\MessengerTransport`
+      is possible.
 
 
 ## Internal Implementation

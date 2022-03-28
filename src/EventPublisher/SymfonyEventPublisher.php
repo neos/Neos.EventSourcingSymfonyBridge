@@ -7,7 +7,7 @@ namespace Neos\EventSourcing\SymfonyBridge\EventPublisher;
 use Neos\EventSourcing\Event\DecoratedEvent;
 use Neos\EventSourcing\Event\DomainEvents;
 use Neos\EventSourcing\EventPublisher\EventPublisherInterface;
-use Neos\EventSourcing\SymfonyBridge\Transport\AsyncTransportInterface;
+use Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\AsyncTransportInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SymfonyEventPublisher implements EventPublisherInterface

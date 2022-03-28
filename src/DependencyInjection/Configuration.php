@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Neos\EventSourcing\SymfonyBridge\DependencyInjection;
 
+use Neos\EventSourcing\EventStore\Storage\Doctrine\DoctrineEventStorage;
+use Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\ConsoleCommandTransport;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -29,10 +31,10 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('stores')
                     ->arrayPrototype()
                         ->children()
-                            ->scalarNode('eventTableName')->end()
-                            ->arrayNode('listenerClassNames')
-                                ->scalarPrototype()->end()
-                            ->end()
+                            ->scalarNode('eventTableName')->isRequired()->cannotBeEmpty()->end()
+
+                            ->scalarNode('storage')->defaultValue(DoctrineEventStorage::class)->end()
+                            ->scalarNode('eventPublisherTransport')->defaultValue(ConsoleCommandTransport::class)->end()
                         ->end()
                     ->end()
                 ->end()

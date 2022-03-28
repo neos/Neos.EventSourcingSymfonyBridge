@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Neos\EventSourcing\SymfonyBridge\Transport;
+namespace Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport;
 
-use Neos\EventSourcing\SymfonyBridge\Resources\EventSourcingMessage;
+use Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Messenger\Dto\EventSourcingMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class MessengerTransport implements AsyncTransportInterface
