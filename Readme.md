@@ -7,9 +7,9 @@ for the Neos/Flow framework).
 
 ### Demo
 
-Check out the symfony demo Repository:
+Check out the Symfony Demo Repository:
 
-https://github.com/Inchie/eventsourcing.git
+https://github.com/Inchie/symfony-eventsourcing-demo.git
 
 ## Getting started
 
