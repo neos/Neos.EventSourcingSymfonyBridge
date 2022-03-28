@@ -41,4 +41,7 @@ services:
       $environment: "%kernel.environment%"
 
   Neos\EventSourcing\SymfonyBridge\Transport\MessengerTransport:
+    arguments:
+      $messageBus: '@Symfony\Component\Messenger\MessageBusInterface'
+
   Neos\EventSourcing\SymfonyBridge\Transport\AsyncTransportInterface: '@Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport'
