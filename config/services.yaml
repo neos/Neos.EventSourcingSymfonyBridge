@@ -40,4 +40,5 @@ services:
       $projectDir: "%kernel.project_dir%"
       $environment: "%kernel.environment%"
 
+  Neos\EventSourcing\SymfonyBridge\Transport\MessengerTransport:
   Neos\EventSourcing\SymfonyBridge\Transport\AsyncTransportInterface: '@Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport'
