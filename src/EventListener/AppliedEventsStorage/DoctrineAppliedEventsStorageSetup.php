@@ -6,7 +6,7 @@ namespace Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage;
 
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
@@ -135,7 +135,7 @@ class DoctrineAppliedEventsStorageSetup
                     [
                         AppliedEventsLog::TABLE_NAME,
                         $this->connection->getDatabase(),
-                        $this->connection->getHost()
+                        $this->connection->getParams()['host']
                     ]
                 )
             );
