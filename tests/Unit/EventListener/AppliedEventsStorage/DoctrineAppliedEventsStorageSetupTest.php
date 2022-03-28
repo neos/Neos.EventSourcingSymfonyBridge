@@ -15,7 +15,7 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
     private $method;
     private $connection;
 
-    public function setUp()
+    public function setUp(): void
     {
         $className = DoctrineAppliedEventsStorageSetup::class;
         $reflection = new \ReflectionClass($className);

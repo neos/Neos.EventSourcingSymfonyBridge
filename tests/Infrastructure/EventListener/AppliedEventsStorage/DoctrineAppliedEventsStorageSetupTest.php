@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Neos\EventSourcing\SymfonyBridge\Tests\Infrastructure\EventListener\AppliedEventsStorage;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Neos\EventSourcing\EventListener\AppliedEventsStorage\AppliedEventsLog;
 use Neos\EventSourcing\SymfonyBridge\Driver\Connection;
 use Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\Doctrine\Test\DoctrineTestHelper;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * @requires extension pdo_sqlite
  */
-class DoctrineAppliedEventsStorageSetupTest extends TestCase
+class DoctrineAppliedEventsStorageSetupTest extends KernelTestCase
 {
 
     /**
@@ -32,7 +34,9 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
 
     protected function setUp(): void
     {
-        $entityManager = DoctrineTestHelper::createTestEntityManager();
+        self::bootKernel();
+        $container = static::getContainer();
+        $entityManager = $container->get(EntityManagerInterface::class);
         $this->connection = $entityManager->getConnection();
     }
 
@@ -77,7 +81,7 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
         $method->setAccessible(true);
 
         // when the createSchemaDifferenceStatements is called
-        $statements = $method->invokeArgs($doctrineAppliedEventsStorageSetup, [$this->connection]);
+        $statements = $method->invokeArgs($doctrineAppliedEventsStorageSetup, [$this->connection->createSchemaManager()]);
 
         // then the expected statements are returned
         $this->assertEquals(

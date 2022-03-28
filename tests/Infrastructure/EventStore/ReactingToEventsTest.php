@@ -12,7 +12,7 @@ use Neos\EventSourcing\SymfonyBridge\Tests\Fake\EventSubscriber\SymfonyBridgeSub
 
 class ReactingToEventsTest extends AbstractEventsTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }

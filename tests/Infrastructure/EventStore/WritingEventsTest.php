@@ -10,7 +10,7 @@ use Neos\EventSourcing\SymfonyBridge\Tests\Fake\Event\SymfonyBridgeWasCreated;
 
 class WritingEventsTest extends AbstractEventsTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }

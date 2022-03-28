@@ -18,7 +18,7 @@ class SymfonyEventPublisherTest extends TestCase
     private $eventPublisher;
     private $domainEvents;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->inMemoryAsyncTransport = new InMemoryAsyncTransport();
 
