@@ -1,3 +1,4 @@
+# this services.yaml is loaded via {@see NeosEventSourcingExtension}.
 services:
 
   neos_eventsourcing_event_eventTypeResolver:
@@ -38,4 +39,5 @@ services:
     arguments:
       $projectDir: "%kernel.project_dir%"
       $environment: "%kernel.environment%"
+
   Neos\EventSourcing\SymfonyBridge\Transport\AsyncTransportInterface: '@Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport'

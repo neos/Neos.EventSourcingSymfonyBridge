@@ -1,6 +1,6 @@
 {
     "name": "neos/event-sourcing-symfony-bridge",
-    "type": "neos-package",
+    "type": "symfony-bundle",
     "description": "Symfony bridge to integrate Event Sourcing and CQRS pattern in your Symfony framework.",
     "license": "MIT",
     "authors": [
@@ -20,6 +20,10 @@
         "neos/error-messages": "*",
         "neos/utility-objecthandling": "*",
         "ramsey/uuid": "^3.9"
+    },
+    "replace": {
+        "neos/flow": "*",
+        "flowpack/jobqueue-common": "*"
     },
     "suggest": {
         "symfony/process": "Needed for standalone usage"

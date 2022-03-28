@@ -9,7 +9,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class MessengerTransport implements AsyncTransportInterface
 {
-    private $messageBus;
+    private MessageBusInterface $messageBus;
 
     public function __construct(
         MessageBusInterface $messageBus

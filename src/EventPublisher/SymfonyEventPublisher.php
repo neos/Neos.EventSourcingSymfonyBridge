@@ -12,11 +12,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SymfonyEventPublisher implements EventPublisherInterface
 {
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
-    private $asyncTransport;
+    private AsyncTransportInterface $asyncTransport;
 
-    private $eventStoreContainerId;
+    private string $eventStoreContainerId;
 
     public function __construct(
         AsyncTransportInterface $asyncTransport,

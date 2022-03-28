@@ -15,14 +15,14 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('neos_eventsourcing');
         $rootNode    = $treeBuilder->getRootNode();
 
-        $this->addDbalSection($rootNode);
+        $this->addStoresSection($rootNode);
         return $treeBuilder;
     }
 
     /**
-     * Add DBAL section to configuration tree
+     * Add stores section to configuration tree
      */
-    private function addDbalSection(ArrayNodeDefinition $node): void
+    private function addStoresSection(ArrayNodeDefinition $node): void
     {
         $node
             ->children()

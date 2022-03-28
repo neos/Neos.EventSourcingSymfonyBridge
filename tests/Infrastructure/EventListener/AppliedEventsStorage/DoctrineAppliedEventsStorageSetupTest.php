@@ -21,7 +21,7 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
      */
     private $connection;
 
-    private $statement = "
+    private string $statement = "
         CREATE TABLE neos_eventsourcing_eventlistener_appliedeventslog 
             (
                 eventlisteneridentifier VARCHAR(255) NOT NULL, 

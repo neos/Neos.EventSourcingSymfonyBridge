@@ -6,12 +6,17 @@ namespace Neos\EventSourcing\SymfonyBridge\Command;
 
 use Doctrine\DBAL\Connection;
 use Neos\EventSourcing\EventListener\EventListenerInvoker;
+use Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * This is an implementation detail of {@see ConsoleCommandTransport} for running Event Listeners (like Projectors)
+ * asynchronously by spawning a new PHP process.
+ */
 final class InternalCatchUpEventListenerCommand extends Command
 {
     protected static $defaultName = 'eventsourcing:internal:catchup-event-listener';

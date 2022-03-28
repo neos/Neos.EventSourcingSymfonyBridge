@@ -1,16 +1,25 @@
-# Symfony bridge for Event Sourcing and CQRS (Flow Framework)
+# Symfony bridge for Event Sourcing and CQRS
 
-Library providing interfaces and implementations for event-sourced applications. 
+Library providing interfaces and implementations for event-sourced applications for Symfony Applications.
+
+This package is the symfony adapter of [Neos.EventSourcing](https://github.com/neos/Neos.EventSourcing) (which was created
+for the Neos/Flow framework).
 
 ## Getting started
 
-Install this package via composer:
+In your symfony application, install this package via composer:
 
 ```shell script
 composer require neos/event-sourcing-symfony-bridge
 ```
 
-### Setting up an Doctrine Event Store
+### Demo
+
+Check out the symfony demo:
+
+https://github.com/Inchie/eventsourcing.git
+
+### Setting up a Doctrine Event Store
 
 Since there could be multiple Event Stores simultaneously in one application, this package comes without a pre-configured "default" store.
 It is just a matter of a couple of lines of YAML to configure a custom store:
@@ -194,8 +203,13 @@ The specialty about this is that the EventSourcing package uses the
 "when*" namings. For that reason the listeners method names have 
 to start with when* prefix too (@see Reacting to events).
 
-### Demo
 
-Check out the symfony demo:
+## Internal Implementation
 
-https://github.com/Inchie/eventsourcing.git
+How is this package constructed? We try to give an overview here:
+
+### composer.json
+
+We replace `neos/flow` and `flowpack/jobqueue-common` to ensure these are not installed.
+
+### 

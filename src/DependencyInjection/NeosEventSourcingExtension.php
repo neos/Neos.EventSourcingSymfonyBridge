@@ -16,15 +16,20 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * Main configuration/integration point for Symfony
+ */
 class NeosEventSourcingExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
+        // Load configuration
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('neos_eventsourcing', $config);
 
+        // load services.yaml
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__ . '/../../config')

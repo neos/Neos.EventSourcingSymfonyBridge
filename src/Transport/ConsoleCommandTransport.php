@@ -9,10 +9,13 @@ use Neos\EventSourcing\SymfonyBridge\Exception\TransportException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\Process;
 
+/**
+ * This is one of the
+ */
 class ConsoleCommandTransport implements AsyncTransportInterface
 {
-    private $projectDir = '';
-    private $environment = '';
+    private string $projectDir = '';
+    private string $environment = '';
 
     public function __construct(
         string $projectDir,
