@@ -44,10 +44,12 @@ class ConsoleCommandTransport implements AsyncTransportInterface
                 $listenerClassName,
                 $eventStoreContainerId,
                 '--env',
-                $this->environment
+                $this->environment,
+                '--no-debug'
             ]
         );
         $process->run();
+
 
         $errOutput = $process->getErrorOutput();
         if ('' !==  $errOutput) {
