@@ -5,19 +5,19 @@ Library providing interfaces and implementations for event-sourced applications 
 This package is the symfony adapter of [Neos.EventSourcing](https://github.com/neos/Neos.EventSourcing) (which was created
 for the Neos/Flow framework).
 
-## Getting started
-
-In your symfony application, install this package via composer:
-
-```shell script
-composer require neos/event-sourcing-symfony-bridge
-```
-
 ### Demo
 
-Check out the symfony demo:
+Check out the symfony demo Repository:
 
 https://github.com/Inchie/eventsourcing.git
+
+## Getting started
+
+In your symfony application, install this package and neos/event-sourcing via composer:
+
+```shell script
+composer require neos/event-sourcing-symfony-bridge neos/event-sourcing
+```
 
 ### Setting up a Doctrine Event Store
 
