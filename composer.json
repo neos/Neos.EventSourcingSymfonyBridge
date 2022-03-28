@@ -19,8 +19,7 @@
         "symfony/property-access": "^5.1",
         "neos/error-messages": "*",
         "neos/utility-objecthandling": "*",
-        "ramsey/uuid": "^3.9",
-        "neos/eventsourcing": "dev-fix-eventstore-setup-transaction"
+        "ramsey/uuid": "^3.9"
     },
     "replace": {
         "neos/flow": "*",
