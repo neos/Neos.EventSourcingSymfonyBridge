@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Neos\EventSourcing\SymfonyBridge\Tests\Infrastructure\EventStore;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Neos\EventSourcing\EventStore\EventNormalizer;
 use Neos\EventSourcing\EventStore\EventStore;
@@ -17,8 +18,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 abstract class AbstractEventsTest extends KernelTestCase
 {
-    protected $eventStore;
-    protected $connection;
+    protected EventStore $eventStore;
+    protected Connection $connection;
 
     public function setUp(): void
     {
@@ -33,7 +34,7 @@ abstract class AbstractEventsTest extends KernelTestCase
         $this->connection = $entityManager->getConnection();
 
         $eventStorage = new DoctrineEventStorage(
-            ['eventTableName' => 'smyfony_bridge'],
+            ['eventTableName' => 'symfony_bridge'],
             $eventNormalizer,
             $this->connection
         );

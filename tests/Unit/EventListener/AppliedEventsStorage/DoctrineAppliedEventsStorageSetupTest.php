@@ -6,7 +6,7 @@ namespace Neos\EventSourcing\SymfonyBridge\Tests\Unit\EventListener\AppliedEvent
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Neos\Error\Messages\Result;
-use Neos\EventSourcing\SymfonyBridge\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup;
 use PHPUnit\Framework\TestCase;
 
@@ -28,8 +28,8 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
             ->method('getDatabase')
             ->willReturn('database');
         $this->connection->expects($this->any())
-            ->method('getHost')
-            ->willReturn('localhost');
+            ->method('getParams')
+            ->willReturn(['host' => 'localhost']);
     }
 
     /**
@@ -51,7 +51,7 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
         $result = $this->method->invokeArgs(
             new DoctrineAppliedEventsStorageSetup($this->connection),
             [
-                $this->connection
+                $schemaManager
             ]
         );
         /* @var $result Result */
@@ -82,7 +82,7 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
         $result = $this->method->invokeArgs(
             new DoctrineAppliedEventsStorageSetup($this->connection),
             [
-                $this->connection
+                $this->connection->createSchemaManager()
             ]
         );
         /* @var $result Result */
