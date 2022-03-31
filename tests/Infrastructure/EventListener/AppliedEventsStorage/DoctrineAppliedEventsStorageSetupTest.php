@@ -4,45 +4,50 @@ declare(strict_types=1);
 
 namespace Neos\EventSourcing\SymfonyBridge\Tests\Infrastructure\EventListener\AppliedEventsStorage;
 
+use Doctrine\DBAL\Exception;
+use Doctrine\ORM\EntityManagerInterface;
 use Neos\EventSourcing\EventListener\AppliedEventsStorage\AppliedEventsLog;
-use Neos\EventSourcing\SymfonyBridge\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup;
-use PHPUnit\Framework\TestCase;
-use Symfony\Bridge\Doctrine\Test\DoctrineTestHelper;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * @requires extension pdo_sqlite
  */
-class DoctrineAppliedEventsStorageSetupTest extends TestCase
+class DoctrineAppliedEventsStorageSetupTest extends KernelTestCase
 {
 
     /**
      * @var Connection
      */
-    private $connection;
+    private Connection $connection;
 
     private string $statement = "
         CREATE TABLE neos_eventsourcing_eventlistener_appliedeventslog 
             (
                 eventlisteneridentifier VARCHAR(255) NOT NULL, 
-                highestappliedsequencenumber INTEGER NOT NULL, 
+                highestappliedsequencenumber INT NOT NULL, 
                 PRIMARY KEY(eventlisteneridentifier)
-            )
+            ) DEFAULT CHARACTER SET utf8mb4COLLATE `utf8mb4_unicode_ci` ENGINE=InnoDB
     ";
 
     protected function setUp(): void
     {
-        $entityManager = DoctrineTestHelper::createTestEntityManager();
+        /** @var EntityManagerInterface $entityManager */
+        self::bootKernel();
+        $container = static::getContainer();
+        $entityManager = $container->get(EntityManagerInterface::class);
         $this->connection = $entityManager->getConnection();
+
+        $this->connection->executeStatement('DROP TABLE IF EXISTS neos_eventsourcing_eventlistener_appliedeventslog');
     }
 
     /**
      * @test
+     * @throws Exception
      */
     public function createLogTableIfTheTableDoesNotExists()
     {
-        $this->connection->beginTransaction();
-
         // given a database without the AppliedEventsLog::TABLE_NAME
         $tableExists = false;
 
@@ -51,7 +56,7 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
         $doctrineAppliedEventsStorageSetup->setup();
 
         // then the AppliedEventsLog::TABLE_NAME is created
-        $schemaManager = $this->connection->getSchemaManager();
+        $schemaManager = $this->connection->createSchemaManager();
         if ($schemaManager->tablesExist(array(AppliedEventsLog::TABLE_NAME)) === true) {
             $tableExists = true;
         }
@@ -64,6 +69,7 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
 
     /**
      * @test
+     * @throws Exception
      */
     public function createSchemaReturnsTheExpectedSql()
     {
@@ -77,7 +83,10 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
         $method->setAccessible(true);
 
         // when the createSchemaDifferenceStatements is called
-        $statements = $method->invokeArgs($doctrineAppliedEventsStorageSetup, [$this->connection]);
+        $statements = $method->invokeArgs(
+            $doctrineAppliedEventsStorageSetup,
+            [$this->connection->createSchemaManager()]
+        );
 
         // then the expected statements are returned
         $this->assertEquals(

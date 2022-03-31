@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Neos\EventSourcing\SymfonyBridge\Tests\Infrastructure\EventStore;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
 use Neos\EventSourcing\EventStore\EventNormalizer;
 use Neos\EventSourcing\EventStore\EventStore;
 use Neos\EventSourcing\EventStore\Storage\Doctrine\DoctrineEventStorage;
@@ -11,27 +13,28 @@ use Neos\EventSourcing\SymfonyBridge\Event\Resolver\FullyQualifiedClassNameResol
 use Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup;
 use Neos\EventSourcing\SymfonyBridge\EventPublisher\SymfonyEventPublisher;
 use Neos\EventSourcing\SymfonyBridge\Tests\Fake\InMemoryAsyncTransport;
-use PHPUnit\Framework\TestCase;
-use Symfony\Bridge\Doctrine\Test\DoctrineTestHelper;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-abstract class AbstractEventsTest extends TestCase
+abstract class AbstractEventsTest extends KernelTestCase
 {
-    protected $eventStore;
-    protected $connection;
+    protected EventStore $eventStore;
+    protected Connection $connection;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $eventTypeResolver = new FullyQualifiedClassNameResolver();
         $eventNormalizer = new EventNormalizer($eventTypeResolver);
 
-        $entityManager = DoctrineTestHelper::createTestEntityManager();
+        self::bootKernel();
+        $container = static::getContainer();
+        $entityManager = $container->get(EntityManagerInterface::class);
         $this->connection = $entityManager->getConnection();
 
         $eventStorage = new DoctrineEventStorage(
-            ['eventTableName' => 'smyfony_bridge'],
+            ['eventTableName' => 'symfony_bridge'],
             $eventNormalizer,
             $this->connection
         );

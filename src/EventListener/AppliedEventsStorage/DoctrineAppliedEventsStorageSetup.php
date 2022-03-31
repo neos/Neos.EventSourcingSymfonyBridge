@@ -40,7 +40,6 @@ class DoctrineAppliedEventsStorageSetup
      */
     public function setup(): Result
     {
-        $this->connection->beginTransaction();
         $result = new Result();
         try {
             $schemaManager = $this->connection->createSchemaManager();
@@ -168,23 +167,19 @@ class DoctrineAppliedEventsStorageSetup
         Result $result
     ): Result
     {
-        try {
-            foreach ($statements as $statement) {
-                $result->addNotice(
-                    new Notice(
-                        '<info>++</info> %s',
-                        null,
-                        [
-                            $statement
-                        ]
-                    )
-                );
-                $this->connection->executeStatement($statement);
-            }
-            $this->connection->commit();
-        } catch (Throwable $exception) {
-            $this->connection->rollBack();
-            throw $exception;
+        // NOTE: we are not allowed to wrap this in a transaction, as newer PHP versions will throw Exceptions (at least on MariaDB)
+        // when the statement is not executable in a transaction.
+        foreach ($statements as $statement) {
+            $result->addNotice(
+                new Notice(
+                    '<info>++</info> %s',
+                    null,
+                    [
+                        $statement
+                    ]
+                )
+            );
+            $this->connection->executeStatement($statement);
         }
         return $result;
     }
