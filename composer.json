@@ -15,8 +15,8 @@
     ],
     "require": {
         "php": ">=7.2",
-        "symfony/serializer": "^5.1",
-        "symfony/property-access": "^5.1",
+        "symfony/serializer": "^5.4",
+        "symfony/property-access": "^5.4",
         "neos/error-messages": "*",
         "neos/utility-objecthandling": "*",
         "ramsey/uuid": "^3.9"
