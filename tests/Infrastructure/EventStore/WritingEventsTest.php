@@ -7,6 +7,7 @@ namespace Neos\EventSourcing\SymfonyBridge\Tests\Infrastructure\EventStore;
 use Neos\EventSourcing\Event\DomainEvents;
 use Neos\EventSourcing\EventStore\StreamName;
 use Neos\EventSourcing\SymfonyBridge\Tests\Fake\Event\SymfonyBridgeWasCreated;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 class WritingEventsTest extends AbstractEventsTest
 {
@@ -17,6 +18,7 @@ class WritingEventsTest extends AbstractEventsTest
 
     /**
      * @test
+     * @throws ExceptionInterface
      */
     public function writeEventToStore()
     {
@@ -31,7 +33,7 @@ class WritingEventsTest extends AbstractEventsTest
             $event
         ));
 
-        // the the event is stored
+        // then the event is stored
         $eventStream = $this->eventStore->load(StreamName::fromString('symfony-bridge'));
         foreach ($eventStream as $eventEnvelope) {
             $rawEvent = $eventEnvelope->getRawEvent();

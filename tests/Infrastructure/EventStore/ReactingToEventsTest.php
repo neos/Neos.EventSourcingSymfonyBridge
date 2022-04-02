@@ -11,6 +11,7 @@ use Neos\EventSourcing\EventListener\Exception\EventCouldNotBeAppliedException;
 use Neos\EventSourcing\EventStore\StreamName;
 use Neos\EventSourcing\SymfonyBridge\Tests\Fake\Event\SymfonyBridgeWasCreated;
 use Neos\EventSourcing\SymfonyBridge\Tests\Fake\EventSubscriber\SymfonyBridgeSubscriber;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 class ReactingToEventsTest extends AbstractEventsTest
 {
@@ -27,6 +28,7 @@ class ReactingToEventsTest extends AbstractEventsTest
     /**
      * @test
      * @throws EventCouldNotBeAppliedException
+     * @throws ExceptionInterface
      */
     public function reactToEvents()
     {

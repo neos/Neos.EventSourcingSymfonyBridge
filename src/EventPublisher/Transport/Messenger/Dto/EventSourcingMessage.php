@@ -13,8 +13,7 @@ final class EventSourcingMessage
     public static function create(
         string $listenerClassName,
         string $eventStoreContainerId
-    ): EventSourcingMessage
-    {
+    ): EventSourcingMessage {
         $newMessage = new self();
         $newMessage->listenerClassName = $listenerClassName;
         $newMessage->eventStoreContainerId = $eventStoreContainerId;

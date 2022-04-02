@@ -14,9 +14,9 @@ use PHPUnit\Framework\TestCase;
 
 class SymfonyEventPublisherTest extends TestCase
 {
-    private $inMemoryAsyncTransport;
-    private $eventPublisher;
-    private $domainEvents;
+    private InMemoryAsyncTransport $inMemoryAsyncTransport;
+    private SymfonyEventPublisher $eventPublisher;
+    private DomainEvents $domainEvents;
 
     public function setUp(): void
     {
@@ -48,7 +48,7 @@ class SymfonyEventPublisherTest extends TestCase
     {
         // given an event to publish
 
-        // when the evnt is published
+        // when the event is published
         $this->eventPublisher->publish(
             $this->domainEvents
         );

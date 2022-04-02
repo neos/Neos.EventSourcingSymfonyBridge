@@ -44,8 +44,8 @@ class EventSourcingMessageHandler implements MessageHandlerInterface
      */
     public function __invoke(EventSourcingMessage $message): void
     {
-        $listener = $this->container->get($message->listenerClassName);
         $eventStore = $this->container->get($message->eventStoreContainerId);
+        $listener = $this->container->get($message->listenerClassName);
 
         $eventListenerInvoker = new EventListenerInvoker(
             $eventStore,

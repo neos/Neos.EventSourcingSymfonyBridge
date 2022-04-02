@@ -19,8 +19,7 @@ class ConsoleCommandTransport implements AsyncTransportInterface
     public function __construct(
         string $projectDir,
         string $environment
-    )
-    {
+    ) {
         $this->projectDir = $projectDir;
         $this->environment = $environment;
     }
