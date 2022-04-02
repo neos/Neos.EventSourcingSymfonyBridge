@@ -32,8 +32,7 @@ final class ProjectionReplayCommand extends Command
     public function __construct(
         ContainerInterface $container,
         Connection $connection
-    )
-    {
+    ) {
         $this->container = $container;
         $this->connection = $connection;
 

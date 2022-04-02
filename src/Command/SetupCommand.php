@@ -27,13 +27,12 @@ final class SetupCommand extends Command
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     public function __construct(
         DoctrineAppliedEventsStorageSetup $doctrineAppliedEventsStorageSetup,
         ContainerInterface $container
-    )
-    {
+    ) {
         $this->doctrineAppliedEventsStorageSetup = $doctrineAppliedEventsStorageSetup;
         $this->container = $container;
 
@@ -53,8 +52,8 @@ final class SetupCommand extends Command
 
         $result = new Result();
         foreach ($config['stores'] as $name => $store) {
-            $store = $this->container->get('neos_eventsourcing.eventstore.' . $name);
             /* @var $store EventStore */
+            $store = $this->container->get('neos_eventsourcing.eventstore.' . $name);
             $result->merge($store->setup());
         }
 
@@ -69,15 +68,21 @@ final class SetupCommand extends Command
 
     /**
      * Outputs the given Result object in a human-readable way
-     *
      * @param Result $result
+     * @param OutputInterface $output
+     * @return void
      */
     private static function renderResult(Result $result, OutputInterface $output): void
     {
         if ($result->hasNotices()) {
             /** @var Notice $notice */
             foreach ($result->getNotices() as $notice) {
-                $output->writeln($notice->render());
+                $output->writeln(
+                    sprintf(
+                        '<info>%s</info>',
+                        $notice->render()
+                    )
+                );
             }
         }
 
@@ -98,7 +103,7 @@ final class SetupCommand extends Command
             foreach ($result->getWarnings() as $warning) {
                 $output->writeln(
                     vsprintf(
-                        '<bg=yellow;>%s !!!</>',
+                        '<comment>%s !!!</comment>',
                         [
                             $warning->render()
                         ]

@@ -15,12 +15,16 @@ use Neos\EventSourcing\SymfonyBridge\EventPublisher\SymfonyEventPublisher;
 use Neos\EventSourcing\SymfonyBridge\Tests\Fake\InMemoryAsyncTransport;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Throwable;
 
 abstract class AbstractEventsTest extends KernelTestCase
 {
     protected EventStore $eventStore;
     protected Connection $connection;
 
+    /**
+     * @throws Throwable
+     */
     public function setUp(): void
     {
         parent::setUp();

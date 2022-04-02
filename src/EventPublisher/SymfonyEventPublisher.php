@@ -34,7 +34,7 @@ class SymfonyEventPublisher implements EventPublisherInterface
         $queuedEventListenerClassNames = [];
         $processedEventClassNames = [];
         foreach ($events as $event) {
-            /** @var string $eventClassName */
+
             $eventClassName = \get_class($event instanceof DecoratedEvent ? $event->getWrappedEvent() : $event);
 
             // only process every Event type once

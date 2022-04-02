@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('neos_eventsourcing');
-        $rootNode    = $treeBuilder->getRootNode();
+        $rootNode = $treeBuilder->getRootNode();
 
         $this->addStoresSection($rootNode);
         return $treeBuilder;
@@ -32,7 +32,6 @@ class Configuration implements ConfigurationInterface
                     ->arrayPrototype()
                         ->children()
                             ->scalarNode('eventTableName')->isRequired()->cannotBeEmpty()->end()
-
                             ->scalarNode('storage')->defaultValue(DoctrineEventStorage::class)->end()
                             ->scalarNode('eventPublisherTransport')->defaultValue(ConsoleCommandTransport::class)->end()
                         ->end()

@@ -9,7 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Neos\EventSourcing\EventListener\AppliedEventsStorage\AppliedEventsLog;
 use Doctrine\DBAL\Connection;
 use Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup;
+use ReflectionClass;
+use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Throwable;
 
 /**
  * @requires extension pdo_sqlite
@@ -45,6 +48,7 @@ class DoctrineAppliedEventsStorageSetupTest extends KernelTestCase
     /**
      * @test
      * @throws Exception
+     * @throws Throwable
      */
     public function createLogTableIfTheTableDoesNotExists()
     {
@@ -70,6 +74,7 @@ class DoctrineAppliedEventsStorageSetupTest extends KernelTestCase
     /**
      * @test
      * @throws Exception
+     * @throws ReflectionException
      */
     public function createSchemaReturnsTheExpectedSql()
     {
@@ -77,7 +82,7 @@ class DoctrineAppliedEventsStorageSetupTest extends KernelTestCase
         $doctrineAppliedEventsStorageSetup = new DoctrineAppliedEventsStorageSetup($this->connection);
 
         $className = get_class($doctrineAppliedEventsStorageSetup);
-        $reflection = new \ReflectionClass($className);
+        $reflection = new ReflectionClass($className);
 
         $method = $reflection->getMethod('createSchemaDifferenceStatements');
         $method->setAccessible(true);

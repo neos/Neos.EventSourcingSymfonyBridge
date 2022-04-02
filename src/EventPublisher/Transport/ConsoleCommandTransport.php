@@ -19,8 +19,7 @@ class ConsoleCommandTransport implements AsyncTransportInterface
     public function __construct(
         string $projectDir,
         string $environment
-    )
-    {
+    ) {
         $this->projectDir = $projectDir;
         $this->environment = $environment;
     }
@@ -44,7 +43,7 @@ class ConsoleCommandTransport implements AsyncTransportInterface
                 $eventStoreContainerId,
                 '--env',
                 $this->environment,
-                '--no-debug'
+                '-v'
             ]
         );
         $process->run();

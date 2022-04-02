@@ -11,6 +11,7 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
+use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Types\Types;
 use Neos\Error\Messages\Error;
 use Neos\Error\Messages\Notice;
@@ -78,6 +79,9 @@ class DoctrineAppliedEventsStorageSetup
         );
     }
 
+    /**
+     * @throws Exception
+     */
     private function statusForEventsLogTable(
         AbstractSchemaManager $schemaManager
     ): Result
@@ -144,6 +148,9 @@ class DoctrineAppliedEventsStorageSetup
         );
     }
 
+    /**
+     * @throws SchemaException
+     */
     private function createEventStoreSchema(): Schema
     {
         $schemaConfiguration = new SchemaConfig();
@@ -152,16 +159,18 @@ class DoctrineAppliedEventsStorageSetup
             $schemaConfiguration->setDefaultTableOptions($connectionParameters['defaultTableOptions']);
         }
         $schema = new Schema([], [], $schemaConfiguration);
-        $table = $schema->createTable(AppliedEventsLog::TABLE_NAME);
 
+        $table = $schema->createTable(AppliedEventsLog::TABLE_NAME);
         $table->addColumn('eventlisteneridentifier', Types::STRING, ['length' => 255]);
         $table->addColumn('highestappliedsequencenumber', Types::INTEGER);
-
         $table->setPrimaryKey(['eventlisteneridentifier']);
 
         return $schema;
     }
 
+    /**
+     * @throws Exception
+     */
     private function saveAppliedEventsLog(
         array $statements,
         Result $result
