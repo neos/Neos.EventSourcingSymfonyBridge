@@ -44,7 +44,7 @@ class ConsoleCommandTransport implements AsyncTransportInterface
                 $eventStoreContainerId,
                 '--env',
                 $this->environment,
-                '--no-debug'
+                '-v'
             ]
         );
         $process->run();
