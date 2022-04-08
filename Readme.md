@@ -30,8 +30,8 @@ neos_eventsourcing:
   stores:
     'blog.events':
       eventTableName: blog_events
-    'user.events':
-      eventTableName: user_events
+      storage: Neos\EventSourcing\EventStore\Storage\Doctrine\DoctrineEventStorage
+      eventPublisherTransport: Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\ConsoleCommandTransport
 ```
 
 Set the charset in the doctrine config to utf8mb4 by adding the following lines.
@@ -210,7 +210,7 @@ to start with when* prefix too (@see Reacting to events).
     - `eventTableName`: database table name to use as event storage (required)
     - `storage`: which storage engine to use for persisting events. A class name, by default: `Neos\EventSourcing\EventStore\Storage\Doctrine\DoctrineEventStorage`
     - `eventPublisherTransport`: Class name. How the asychronity between event store and projection is implemented. By default,
-      `Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport` is used, but also `Neos\EventSourcing\SymfonyBridge\Transport\MessengerTransport`
+      `Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\ConsoleCommandTransport` is used, but also `Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\MessengerTransport`
       is possible.
 
 
