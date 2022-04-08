@@ -1,16 +1,25 @@
-# Symfony bridge for Event Sourcing and CQRS (Flow Framework)
+# Symfony bridge for Event Sourcing and CQRS
 
-Library providing interfaces and implementations for event-sourced applications. 
+Library providing interfaces and implementations for event-sourced applications for Symfony Applications.
+
+This package is the symfony adapter of [Neos.EventSourcing](https://github.com/neos/Neos.EventSourcing) (which was created
+for the Neos/Flow framework).
+
+### Demo
+
+Check out the Symfony Demo Repository:
+
+https://github.com/Inchie/symfony-eventsourcing-demo.git
 
 ## Getting started
 
-Install this package via composer:
+In your symfony application, install this package and neos/event-sourcing via composer:
 
 ```shell script
-composer require neos/event-sourcing-symfony-bridge
+composer require neos/event-sourcing-symfony-bridge neos/event-sourcing
 ```
 
-### Setting up an Doctrine Event Store
+### Setting up a Doctrine Event Store
 
 Since there could be multiple Event Stores simultaneously in one application, this package comes without a pre-configured "default" store.
 It is just a matter of a couple of lines of YAML to configure a custom store:
@@ -194,8 +203,21 @@ The specialty about this is that the EventSourcing package uses the
 "when*" namings. For that reason the listeners method names have 
 to start with when* prefix too (@see Reacting to events).
 
-### Demo
+### All configuration options in `neos_eventsourcing.yml`
 
-Check out the symfony demo:
+- `stores`
+  - `[name of event store]`
+    - `eventTableName`: database table name to use as event storage (required)
+    - `storage`: which storage engine to use for persisting events. A class name, by default: `Neos\EventSourcing\EventStore\Storage\Doctrine\DoctrineEventStorage`
+    - `eventPublisherTransport`: Class name. How the asychronity between event store and projection is implemented. By default,
+      `Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport` is used, but also `Neos\EventSourcing\SymfonyBridge\Transport\MessengerTransport`
+      is possible.
 
-https://github.com/Inchie/eventsourcing.git
+
+## Internal Implementation
+
+How is this package constructed? We try to give an overview here:
+
+### composer.json
+
+We replace `neos/flow` and `flowpack/jobqueue-common` to ensure these are not installed.

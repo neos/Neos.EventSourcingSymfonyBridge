@@ -5,25 +5,26 @@ declare(strict_types=1);
 namespace Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage;
 
 use Doctrine\DBAL\ConnectionException;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
+use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Types\Types;
 use Neos\Error\Messages\Error;
 use Neos\Error\Messages\Notice;
 use Neos\Error\Messages\Result;
 use Neos\EventSourcing\EventListener\AppliedEventsStorage\AppliedEventsLog;
+use Throwable;
 
 class DoctrineAppliedEventsStorageSetup
 {
     /**
      * @var Connection
      */
-    protected $connection;
-
-    protected $schemaManager;
+    protected Connection $connection;
 
     /**
      * DoctrineAppliedEventsStorageSetup constructor.
@@ -36,25 +37,33 @@ class DoctrineAppliedEventsStorageSetup
 
     /**
      * @inheritdoc
-     * @throws DBALException | \Throwable
+     * @throws Throwable
      */
     public function setup(): Result
     {
-        $this->connection->beginTransaction();
-
-        $result = $this->retrieveSchemaManager($this->connection);
-        if ($result->hasErrors()) {
+        $result = new Result();
+        try {
+            $schemaManager = $this->connection->createSchemaManager();
+        } catch(\Exception $e) {
+            $result->addError(
+                new Error(
+                    'Failed to retrieve Schema Manager',
+                    1592381759,
+                    [],
+                    'Connection failed'
+                )
+            );
             return $result;
         }
 
-        $statusForEventsLogTable = $this->statusForEventsLogTable($this->connection);
+        $statusForEventsLogTable = $this->statusForEventsLogTable($schemaManager);
         if ($statusForEventsLogTable->hasErrors()) {
             return $statusForEventsLogTable;
         }
 
         $result->merge($statusForEventsLogTable);
 
-        $statements = $this->createSchemaDifferenceStatements($this->connection);
+        $statements = $this->createSchemaDifferenceStatements($schemaManager);
         if ($statements === []) {
             $result->addNotice(
                 new Notice(
@@ -70,36 +79,16 @@ class DoctrineAppliedEventsStorageSetup
         );
     }
 
-    private function retrieveSchemaManager(
-        Connection $connection
-    )
-    {
-        $result = new Result();
-
-        $schemaManager = $connection->getSchemaManager();
-        if ($schemaManager === null) {
-            $result->addError(
-                new Error(
-                    'Failed to retrieve Schema Manager',
-                    1592381759,
-                    [],
-                    'Connection failed'
-                )
-            );
-            return $result;
-        }
-
-        return $result;
-    }
-
+    /**
+     * @throws Exception
+     */
     private function statusForEventsLogTable(
-        Connection $connection
+        AbstractSchemaManager $schemaManager
     ): Result
     {
         $result = new Result();
         try {
-            $tableExists = $connection
-                ->getSchemaManager()
+            $tableExists = $schemaManager
                 ->tablesExist(
                     [
                         AppliedEventsLog::TABLE_NAME
@@ -135,7 +124,7 @@ class DoctrineAppliedEventsStorageSetup
                     [
                         AppliedEventsLog::TABLE_NAME,
                         $this->connection->getDatabase(),
-                        $this->connection->getHost()
+                        $this->connection->getParams()['host']
                     ]
                 )
             );
@@ -144,19 +133,24 @@ class DoctrineAppliedEventsStorageSetup
         return $result;
     }
 
+    /**
+     * @throws Exception
+     */
     private function createSchemaDifferenceStatements(
-        Connection $connection
+        AbstractSchemaManager $schemaManager
     ): array
     {
-        $schemaManager = $connection->getSchemaManager();
         $fromSchema = $schemaManager->createSchema();
-        $schemaDiff = (new Comparator())->compare($fromSchema, $this->createEventStoreSchema());
+        $schemaDiff = (new Comparator())->compareSchemas($fromSchema, $this->createEventStoreSchema());
 
         return $schemaDiff->toSaveSql(
             $this->connection->getDatabasePlatform()
         );
     }
 
+    /**
+     * @throws SchemaException
+     */
     private function createEventStoreSchema(): Schema
     {
         $schemaConfiguration = new SchemaConfig();
@@ -165,38 +159,36 @@ class DoctrineAppliedEventsStorageSetup
             $schemaConfiguration->setDefaultTableOptions($connectionParameters['defaultTableOptions']);
         }
         $schema = new Schema([], [], $schemaConfiguration);
-        $table = $schema->createTable(AppliedEventsLog::TABLE_NAME);
 
+        $table = $schema->createTable(AppliedEventsLog::TABLE_NAME);
         $table->addColumn('eventlisteneridentifier', Types::STRING, ['length' => 255]);
         $table->addColumn('highestappliedsequencenumber', Types::INTEGER);
-
         $table->setPrimaryKey(['eventlisteneridentifier']);
 
         return $schema;
     }
 
+    /**
+     * @throws Exception
+     */
     private function saveAppliedEventsLog(
         array $statements,
         Result $result
     ): Result
     {
-        try {
-            foreach ($statements as $statement) {
-                $result->addNotice(
-                    new Notice(
-                        '<info>++</info> %s',
-                        null,
-                        [
-                            $statement
-                        ]
-                    )
-                );
-                $this->connection->exec($statement);
-            }
-            $this->connection->commit();
-        } catch (\Throwable $exception) {
-            $this->connection->rollBack();
-            throw $exception;
+        // NOTE: we are not allowed to wrap this in a transaction, as newer PHP versions will throw Exceptions (at least on MariaDB)
+        // when the statement is not executable in a transaction.
+        foreach ($statements as $statement) {
+            $result->addNotice(
+                new Notice(
+                    '<info>++</info> %s',
+                    null,
+                    [
+                        $statement
+                    ]
+                )
+            );
+            $this->connection->executeStatement($statement);
         }
         return $result;
     }

@@ -7,16 +7,16 @@ namespace Neos\EventSourcing\SymfonyBridge\EventPublisher;
 use Neos\EventSourcing\Event\DecoratedEvent;
 use Neos\EventSourcing\Event\DomainEvents;
 use Neos\EventSourcing\EventPublisher\EventPublisherInterface;
-use Neos\EventSourcing\SymfonyBridge\Transport\AsyncTransportInterface;
+use Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\AsyncTransportInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SymfonyEventPublisher implements EventPublisherInterface
 {
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
-    private $asyncTransport;
+    private AsyncTransportInterface $asyncTransport;
 
-    private $eventStoreContainerId;
+    private string $eventStoreContainerId;
 
     public function __construct(
         AsyncTransportInterface $asyncTransport,
@@ -34,7 +34,7 @@ class SymfonyEventPublisher implements EventPublisherInterface
         $queuedEventListenerClassNames = [];
         $processedEventClassNames = [];
         foreach ($events as $event) {
-            /** @var string $eventClassName */
+
             $eventClassName = \get_class($event instanceof DecoratedEvent ? $event->getWrappedEvent() : $event);
 
             // only process every Event type once

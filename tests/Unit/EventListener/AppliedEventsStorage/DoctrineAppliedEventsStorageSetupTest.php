@@ -4,21 +4,29 @@ declare(strict_types=1);
 
 namespace Neos\EventSourcing\SymfonyBridge\Tests\Unit\EventListener\AppliedEventsStorage;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Neos\Error\Messages\Result;
-use Neos\EventSourcing\SymfonyBridge\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use Neos\EventSourcing\SymfonyBridge\EventListener\AppliedEventsStorage\DoctrineAppliedEventsStorageSetup;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
 
 class DoctrineAppliedEventsStorageSetupTest extends TestCase
 {
-    private $method;
-    private $connection;
+    private ReflectionMethod $method;
+    private MockObject $connection;
 
-    public function setUp()
+    /**
+     * @throws ReflectionException
+     */
+    public function setUp(): void
     {
         $className = DoctrineAppliedEventsStorageSetup::class;
-        $reflection = new \ReflectionClass($className);
+        $reflection = new ReflectionClass($className);
 
         $this->method = $reflection->getMethod('statusForEventsLogTable');
         $this->method->setAccessible(true);
@@ -28,12 +36,13 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
             ->method('getDatabase')
             ->willReturn('database');
         $this->connection->expects($this->any())
-            ->method('getHost')
-            ->willReturn('localhost');
+            ->method('getParams')
+            ->willReturn(['host' => 'localhost']);
     }
 
     /**
      * @test
+     * @throws ReflectionException
      */
     public function statusForEventsLogTableReturnsTableAlreadyExists()
     {
@@ -51,7 +60,7 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
         $result = $this->method->invokeArgs(
             new DoctrineAppliedEventsStorageSetup($this->connection),
             [
-                $this->connection
+                $schemaManager
             ]
         );
         /* @var $result Result */
@@ -65,6 +74,8 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
 
     /**
      * @test
+     * @throws ReflectionException
+     * @throws Exception
      */
     public function statusForEventsLogTableReturnsTableDoesNotExists()
     {
@@ -79,13 +90,13 @@ class DoctrineAppliedEventsStorageSetupTest extends TestCase
             ->willReturn($schemaManager);
 
         // when we ask for the status of the table
+        /* @var $result Result */
         $result = $this->method->invokeArgs(
             new DoctrineAppliedEventsStorageSetup($this->connection),
             [
-                $this->connection
+                $this->connection->createSchemaManager()
             ]
         );
-        /* @var $result Result */
 
         // then the table doesn't exists
         $this->assertEquals(

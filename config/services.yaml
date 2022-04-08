@@ -1,3 +1,4 @@
+# this services.yaml is loaded via {@see NeosEventSourcingExtension}.
 services:
 
   neos_eventsourcing_event_eventTypeResolver:
@@ -16,7 +17,7 @@ services:
       $container: "@service_container"
 
   neos_eventsourcing_symfonybridge_command_catchUpCommand:
-    class: Neos\EventSourcing\SymfonyBridge\Command\InternalCatchUpEventListenerCommand
+    class: Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Console\InternalCatchUpEventListenerCommand
     tags: [ "console.command" ]
     arguments:
       $container: "@service_container"
@@ -34,8 +35,19 @@ services:
     arguments:
       $connection: "@Doctrine\\DBAL\\Connection"
 
-  Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport:
+  Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\ConsoleCommandTransport:
     arguments:
       $projectDir: "%kernel.project_dir%"
       $environment: "%kernel.environment%"
-  Neos\EventSourcing\SymfonyBridge\Transport\AsyncTransportInterface: '@Neos\EventSourcing\SymfonyBridge\Transport\ConsoleCommandTransport'
+
+  Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Messenger\Handler\EventSourcingMessageHandler:
+    tags:
+      - name: messenger.message_handler
+        handles: Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Messenger\Dto\EventSourcingMessage
+    arguments:
+      $container: "@service_container"
+      $connection: "@Doctrine\\DBAL\\Connection"
+
+  Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\MessengerTransport:
+    arguments:
+      $messageBus: '@Symfony\Component\Messenger\MessageBusInterface'

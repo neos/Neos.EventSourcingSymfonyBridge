@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Neos\EventSourcing\SymfonyBridge\Resources;
+namespace Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Messenger\Dto;
 
 final class EventSourcingMessage
 {
-    public $listenerClassName;
+    public string $listenerClassName;
 
-    public $eventStoreContainerId;
+    public string $eventStoreContainerId;
 
     public static function create(
         string $listenerClassName,
         string $eventStoreContainerId
-    ): EventSourcingMessage
-    {
+    ): EventSourcingMessage {
         $newMessage = new self();
         $newMessage->listenerClassName = $listenerClassName;
         $newMessage->eventStoreContainerId = $eventStoreContainerId;

@@ -2,23 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Neos\EventSourcing\SymfonyBridge\Transport;
+namespace Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport;
 
-use Neos\EventSourcing\SymfonyBridge\Command\InternalCatchUpEventListenerCommand;
-use Neos\EventSourcing\SymfonyBridge\Exception\TransportException;
-use Symfony\Component\HttpKernel\KernelInterface;
+use Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Console\Exception\TransportException;
+use Neos\EventSourcing\SymfonyBridge\EventPublisher\Transport\Console\InternalCatchUpEventListenerCommand;
 use Symfony\Component\Process\Process;
 
+/**
+ * This is one of the
+ */
 class ConsoleCommandTransport implements AsyncTransportInterface
 {
-    private $projectDir = '';
-    private $environment = '';
+    private string $projectDir = '';
+    private string $environment = '';
 
     public function __construct(
         string $projectDir,
         string $environment
-    )
-    {
+    ) {
         $this->projectDir = $projectDir;
         $this->environment = $environment;
     }
@@ -41,10 +42,12 @@ class ConsoleCommandTransport implements AsyncTransportInterface
                 $listenerClassName,
                 $eventStoreContainerId,
                 '--env',
-                $this->environment
+                $this->environment,
+                '-v'
             ]
         );
         $process->run();
+
 
         $errOutput = $process->getErrorOutput();
         if ('' !==  $errOutput) {

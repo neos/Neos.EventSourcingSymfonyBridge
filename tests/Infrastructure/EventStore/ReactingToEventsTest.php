@@ -4,21 +4,31 @@ declare(strict_types=1);
 
 namespace Neos\EventSourcing\SymfonyBridge\Tests\Infrastructure\EventStore;
 
+use Doctrine\DBAL\Exception;
 use Neos\EventSourcing\Event\DomainEvents;
 use Neos\EventSourcing\EventListener\EventListenerInvoker;
+use Neos\EventSourcing\EventListener\Exception\EventCouldNotBeAppliedException;
 use Neos\EventSourcing\EventStore\StreamName;
 use Neos\EventSourcing\SymfonyBridge\Tests\Fake\Event\SymfonyBridgeWasCreated;
 use Neos\EventSourcing\SymfonyBridge\Tests\Fake\EventSubscriber\SymfonyBridgeSubscriber;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 class ReactingToEventsTest extends AbstractEventsTest
 {
-    public function setUp()
+    /**
+     * @throws Exception
+     */
+    public function setUp(): void
     {
         parent::setUp();
+
+        $this->connection->executeStatement('TRUNCATE TABLE symfony_bridge;');
     }
 
     /**
      * @test
+     * @throws EventCouldNotBeAppliedException
+     * @throws ExceptionInterface
      */
     public function reactToEvents()
     {
@@ -51,5 +61,15 @@ class ReactingToEventsTest extends AbstractEventsTest
             1,
             $appliedEventsCounter
         );
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->connection->executeStatement('TRUNCATE TABLE neos_eventsourcing_eventlistener_appliedeventslog;');
     }
 }
