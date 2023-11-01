@@ -135,7 +135,7 @@ $this->eventStore->commit($stream, DomainEvents::withSingleEvent(
 ```php
 <?php
 $streamName = StreamName::fromString('some-stream');
-$eventStream = $this->eventStore->load(StreamName::fromString($streamName))
+$eventStream = $this->eventStore->load($streamName)
 ```
 
 ### Reacting to events
@@ -173,7 +173,7 @@ class BlogListProjector implements ProjectorInterface, EventSubscriberInterface
 The `when*()` methods of classes implementing the `EventSubscriberInterface` and `ProjectorInterface` will be invoked whenever a corresponding event is committed to the Event Store.
 
 NOTE!!! You always have to use "when*" namings, as otherwise, the EventListenerInvoker
-will not properly call the right methods here.
+will not properly call the right methods here (see https://github.com/neos/Neos.EventSourcing/issues/282)
 
 ### Replay projection
 
@@ -221,5 +221,3 @@ How is this package constructed? We try to give an overview here:
 ### composer.json
 
 We replace `neos/flow` and `flowpack/jobqueue-common` to ensure these are not installed.
-
-### 
